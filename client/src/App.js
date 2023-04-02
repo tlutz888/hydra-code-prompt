@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home } from "./components/Home";
-import { SignIn } from "./components/SignIn";
-import { Signup } from "./components/Signup";
-import { MyAccount } from "./components/MyAccount";
-import { NavigationBar } from "./components/NavigationBar";
+import { Home } from "./pages/Home";
+import { SignIn } from "./pages/SignIn";
+import { Signup } from "./pages/Signup";
+import { MyAccount } from "./pages/MyAccount";
+import { NavigationBar } from "./pages/NavigationBar";
 
 function App() {
   return (
