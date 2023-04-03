@@ -1,29 +1,42 @@
 import { useEffect, useState } from "react";
-import { SERVER_PORT } from "../../utils/constants";
+import { DEFAULT_PAGE_SIZE, SERVER_PORT } from "../../utils/constants";
+import styled from "styled-components";
+
+const PaginationButton = styled.button`
+  margin: 0.5rem;
+  border-radius: 0.25rem;
+  line-height: 1.5rem;
+  height: 2rem;
+  font-size: 1rem;
+  width: 5rem;
+`;
 
 export const HomePageContent = ({ user }) => {
-  const [userList, setUserList] = useState([]);
-  // const [currentPage, setcurrentPage] = useState(1);
-  // const [previousPage, setPreviousPage] = useState(null);
-  // const [nextPage, setNextPage] = useState(null);
-  // const [totalPages, setTotalPages] = useState(null);
+  const [userData, setUserData] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // const calculateTotalPages = ({ pageLength, totalCount }) => {
-  //   return Math.ceil(totalCount / pageLength);
-  // };
+  const calculateTotalPages = ({
+    pageSize = DEFAULT_PAGE_SIZE,
+    totalCount,
+  }) => {
+    return Math.ceil(totalCount / pageSize);
+  };
 
   useEffect(() => {
     let ignore = false;
 
-    const fetchObjects = async () => {
+    const fetchUsers = async () => {
       try {
         const token = localStorage.getItem("jwt");
 
-        const response = await fetch(`${SERVER_PORT}/users?page=1`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${SERVER_PORT}/users?page=${currentPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const data = await response.json();
         console.log("data", data, "response", response);
 
@@ -33,32 +46,67 @@ export const HomePageContent = ({ user }) => {
         }
 
         if (!ignore) {
-          setUserList(data.page);
-          // setTotalPages();
+          setUserData(data);
         }
       } catch (error) {
         console.error("Error fetching objects:", error.message);
       }
     };
 
-    fetchObjects();
+    fetchUsers();
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [currentPage]);
 
-  if (!user) {
+  if (!userData) {
     return <section>Loading...</section>;
   }
 
+  const totalPages = calculateTotalPages({
+    totalCount: userData.total_count,
+  });
+
+  const onFirstPage = currentPage === 1;
+  const onLastPage = currentPage === totalPages;
+
+  const handlePreviousClick = () => {
+    if (!onFirstPage) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (!onLastPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <section>
-      hello, here is a list of users:
+      <h2>Users:</h2>
+      {`Displaying results ${userData.page_start} through ${userData.page_end} of ${userData.total_count}.`}
+      <div>
+        <PaginationButton
+          type="button"
+          onClick={handlePreviousClick}
+          disabled={onFirstPage}
+        >
+          previous
+        </PaginationButton>
+        <PaginationButton
+          type="button"
+          onClick={handleNextClick}
+          disabled={onLastPage}
+        >
+          next
+        </PaginationButton>
+      </div>
       <ul>
-        {userList.map((user, i) => {
+        {userData.page.map((user) => {
           return (
             <li>
-              {user.username} - {user.tagline} {i}
+              {user.username} - {user.tagline}
             </li>
           );
         })}
