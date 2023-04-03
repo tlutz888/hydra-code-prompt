@@ -10,20 +10,13 @@ function App() {
   const [user, setUser] = useState();
   const [isAuthorized, setIsAuthorized] = useState(false);
 
-  console.log({ user, isAuthorized });
-
   // TODO - Add a useEffect to check if the user is logged in on load
 
   return (
     <BrowserRouter>
       <NavigationBar {...{ user, setUser, isAuthorized, setIsAuthorized }} />
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Home {...{ user, setUser, isAuthorized, setIsAuthorized }} />
-          }
-        />
+        <Route path="/" element={<Home {...{ user, isAuthorized }} />} />
         <Route
           path="/signin"
           element={
@@ -36,7 +29,6 @@ function App() {
             <SignUp {...{ user, setUser, isAuthorized, setIsAuthorized }} />
           }
         />
-        <Route path="/myaccount" element={<MyAccount />} />
         <Route path="*" element={<div>Error!!</div>} />
       </Routes>
     </BrowserRouter>

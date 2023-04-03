@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useMountedState } from "react-use";
 
 const Form = styled.form`
   display: flex;
@@ -40,6 +41,7 @@ const AuthForm = ({ onSubmit, formType }) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [validationErrors, setValidationErrors] = useState([]);
+  const isMounted = useMountedState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,10 +61,11 @@ const AuthForm = ({ onSubmit, formType }) => {
 
     if (!formErrors.length) {
       setLoading(true);
-      console.log("submitting", { username, password });
       await onSubmit({ username, password });
       // TODO - make sure this doesn't fire after unmount
-      setLoading(false);
+      if (isMounted) {
+        setLoading(false);
+      }
     } else {
       setValidationErrors(formErrors);
     }

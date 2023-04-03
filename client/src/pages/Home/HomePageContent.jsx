@@ -39,7 +39,6 @@ export const HomePageContent = ({ user }) => {
           }
         );
         const data = await response.json();
-        console.log("data", data, "response", response);
 
         if (!response.ok || data.error) {
           const errorMessage = data.error || "unknown error in fetch objects";

@@ -8,7 +8,7 @@ const HomePageContainer = styled.main`
   align-items: center;
 `;
 
-export const Home = ({ user, setUser, isAuthorized, setIsAuthorized }) => {
+export const Home = ({ user, isAuthorized }) => {
   if (!isAuthorized) {
     return (
       <HomePageContainer>

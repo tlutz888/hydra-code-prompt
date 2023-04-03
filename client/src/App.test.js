@@ -1,8 +1,17 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe("App", () => {
+  it("renders NavigationBar component", () => {
+    render(<App />);
+
+    expect(screen.getByRole("navigation")).toBeInTheDocument();
+  });
+
+  it("renders Home component at root path", () => {
+    render(<App />);
+
+    expect(screen.getByRole("heading", { name: "Home" })).toBeInTheDocument();
+  });
 });
