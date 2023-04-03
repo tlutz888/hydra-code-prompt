@@ -15,7 +15,7 @@ describe("Home", () => {
     expect(screen.getByText("Sign Up")).toBeInTheDocument();
   });
 
-  it("does not display links when user is authorized", () => {
+  it("displays username and no links when a user is authorized", () => {
     const user = {
       username: "testuser",
     };
@@ -26,6 +26,7 @@ describe("Home", () => {
       </MemoryRouter>
     );
 
+    expect(screen.getByText(/testuser/)).toBeInTheDocument();
     expect(screen.queryByText("Sign In")).not.toBeInTheDocument();
     expect(screen.queryByText("Sign Up")).not.toBeInTheDocument();
   });

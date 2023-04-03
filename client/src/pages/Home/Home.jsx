@@ -27,6 +27,7 @@ export const Home = ({ user, isAuthorized }) => {
   return (
     <HomePageContainer>
       <h1>Home</h1>
+      Welcome {user.username}
       <HomePageContent {...{ user }} />
     </HomePageContainer>
   );
