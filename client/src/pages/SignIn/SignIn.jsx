@@ -2,8 +2,7 @@ import { useNavigate } from "react-router-dom";
 import AuthForm, { AUTH_FORM_TYPES } from "../../components/AuthForm/AuthForm";
 import { SERVER_PORT } from "../../utils/constants";
 
-// TODO - clean up props
-export const SignIn = ({ user, setUser, isAuthorized, setIsAuthorized }) => {
+export const SignIn = ({ setUser, setIsAuthorized }) => {
   const navigate = useNavigate();
   const handleSignIn = async ({ username, password }) => {
     try {
