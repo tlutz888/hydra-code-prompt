@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
-import { HomePageContainer } from "./styles";
+import styled from "styled-components";
+import { HomePageContent } from "./HomePageContent";
 
-export const Home = () => {
-  const authorized = false;
+const HomePageContainer = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
-  if (!authorized) {
+export const Home = ({ user, setUser, isAuthorized, setIsAuthorized }) => {
+  if (!isAuthorized) {
     return (
       <HomePageContainer>
         <h1>Home</h1>
@@ -22,7 +27,7 @@ export const Home = () => {
   return (
     <HomePageContainer>
       <h1>Home</h1>
-      <section>Welcome to Tom's Hydra Prompt. Here is your content!</section>
+      <HomePageContent {...{ user }} />
     </HomePageContainer>
   );
 };

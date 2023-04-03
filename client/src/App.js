@@ -18,7 +18,12 @@ function App() {
     <BrowserRouter>
       <NavigationBar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <Home {...{ user, setUser, isAuthorized, setIsAuthorized }} />
+          }
+        />
         <Route
           path="/signin"
           element={
