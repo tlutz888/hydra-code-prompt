@@ -16,7 +16,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavigationBar />
+      <NavigationBar {...{ user, setUser, isAuthorized, setIsAuthorized }} />
       <Routes>
         <Route
           path="/"
