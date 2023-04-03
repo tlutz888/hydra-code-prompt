@@ -14,6 +14,7 @@ const PaginationButton = styled.button`
 export const HomePageContent = ({ user }) => {
   const [userData, setUserData] = useState();
   const [currentPage, setCurrentPage] = useState(1);
+  const [hasError, setHasError] = useState(false);
 
   const calculateTotalPages = ({
     pageSize = DEFAULT_PAGE_SIZE,
@@ -50,6 +51,7 @@ export const HomePageContent = ({ user }) => {
         }
       } catch (error) {
         console.error("Error fetching objects:", error.message);
+        setHasError(true);
       }
     };
 
@@ -58,6 +60,10 @@ export const HomePageContent = ({ user }) => {
       ignore = true;
     };
   }, [currentPage]);
+
+  if (hasError) {
+    return <section>Error loading users.</section>;
+  }
 
   if (!userData) {
     return <section>Loading...</section>;
@@ -104,7 +110,9 @@ export const HomePageContent = ({ user }) => {
       </div>
       <ul>
         {userData.page.map((user) => {
+          console.log("user", user);
           return (
+            // TODO - make this it's own component
             <li>
               {user.username} - {user.tagline}
             </li>
