@@ -27,19 +27,26 @@ export const AUTH_FORM_TYPES = {
 };
 
 const AuthForm = ({ onSubmit, formType }) => {
+  // TODO handle errors
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    onSubmit({ username, password });
+    setLoading(true);
+    console.log("submitting", { username, password });
+    await onSubmit({ username, password });
+    // TODO - make sure this doesn't fire after unmount
+    setLoading(false);
   };
 
+  // TODO - Form validation
   return (
     <Form onSubmit={handleSubmit}>
       <Label htmlFor="username">Username:</Label>
       <Input
+        disabled={loading}
         type="text"
         id="username"
         value={username}
@@ -47,12 +54,13 @@ const AuthForm = ({ onSubmit, formType }) => {
       />
       <Label htmlFor="password">Password:</Label>
       <Input
+        disabled={loading}
         type="password"
         id="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <Button type="submit">
+      <Button type="submit" disabled={loading}>
         {formType === AUTH_FORM_TYPES.SIGN_IN ? "Sign In" : "Sign Up"}
       </Button>
     </Form>
