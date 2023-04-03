@@ -109,10 +109,9 @@ export const HomePageContent = ({ user }) => {
       </div>
       <ul>
         {userData.page.map((user) => {
-          console.log("user", user);
           return (
             // TODO - make this it's own component
-            <li>
+            <li key={user.username}>
               {user.username} - {user.tagline}
             </li>
           );
