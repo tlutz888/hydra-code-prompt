@@ -1,5 +1,14 @@
 # Welcome to Thomas's hydra-code-prompt project!
 
+## To Run the project:
+
+- Start the server following the [instructions below](#running-the-example-api)
+- `cd client`
+- `npm i`
+- `npm start`
+- run tests with `npm test`
+
+
 ## Process:
 
 When given the project my process is as follows:
